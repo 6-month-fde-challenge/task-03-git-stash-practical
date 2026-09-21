@@ -143,7 +143,7 @@ Switching branches was only possible because the tree was clean.
 Reproducing the reported bug first:
 
 ```console
-$ python -c "from division_module import division; print('returned:', division(10, 0))" < /dev/null
+$ python -c "from division_module import division; print(\"returned:\", division(10, 0))" < /dev/null
 Enter username :    -> no input available, using default: veerandra
 Enter password :    -> no input available, using default: demo-password
 Cannot divide by zero
@@ -155,7 +155,7 @@ returned: None
 After the fix:
 
 ```console
-$ python -c "from division_module import division; print('returned:', division(10, 0))" < /dev/null
+$ python -c "from division_module import division; print(\"returned:\", division(10, 0))" < /dev/null
 Enter username :    -> no input available, using default: veerandra
 Enter password :    -> no input available, using default: demo-password
 Cannot divide 10 by zero - enter a non-zero second number
