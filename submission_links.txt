@@ -1,0 +1,38 @@
+Task 3 - Git Stash Practical (25 marks)
+Author: veerandra7 <veerandra.data@gmail.com>
+
+REPOSITORY
+  https://github.com/6-month-fde-challenge/task-03-git-stash-practical
+
+DEFAULT BRANCH
+  main
+  https://github.com/6-month-fde-challenge/task-03-git-stash-practical/tree/main
+
+BRANCHES
+  main                       https://github.com/6-month-fde-challenge/task-03-git-stash-practical/tree/main
+  feature-percentage         https://github.com/6-month-fde-challenge/task-03-git-stash-practical/tree/feature-percentage
+  hotfix-division-by-zero    https://github.com/6-month-fde-challenge/task-03-git-stash-practical/tree/hotfix-division-by-zero
+
+EVIDENCE FILES (all on the default branch)
+  README.md                    https://github.com/6-month-fde-challenge/task-03-git-stash-practical/blob/main/README.md
+  STASH_TRANSCRIPT.md          https://github.com/6-month-fde-challenge/task-03-git-stash-practical/blob/main/STASH_TRANSCRIPT.md
+  APPLY_VS_POP.md              https://github.com/6-month-fde-challenge/task-03-git-stash-practical/blob/main/APPLY_VS_POP.md
+  stash_session_capture.txt    https://github.com/6-month-fde-challenge/task-03-git-stash-practical/blob/main/stash_session_capture.txt
+
+COMMIT AND NETWORK VIEWS
+  Commits   https://github.com/6-month-fde-challenge/task-03-git-stash-practical/commits/main
+  Network   https://github.com/6-month-fde-challenge/task-03-git-stash-practical/network
+
+WHERE EACH REQUIRED COMMAND IS DEMONSTRATED
+  git stash push -u -m "..."   README.md step 2   | STASH_TRANSCRIPT.md section 2
+  git stash list               README.md step 4   | STASH_TRANSCRIPT.md section 4
+  git stash show / show -p     README.md step 5   | STASH_TRANSCRIPT.md section 5
+  git stash apply              README.md step 6   | STASH_TRANSCRIPT.md section 6  | APPLY_VS_POP.md
+  git stash pop                README.md step 8   | STASH_TRANSCRIPT.md section 8  | APPLY_VS_POP.md
+  git stash drop               README.md step 9   | STASH_TRANSCRIPT.md section 9  | APPLY_VS_POP.md
+  apply vs pop explanation     README.md "apply vs pop" section | APPLY_VS_POP.md
+
+HOW TO RUN
+  git clone https://github.com/6-month-fde-challenge/task-03-git-stash-practical.git
+  cd task-03-git-stash-practical
+  python dashboard.py
