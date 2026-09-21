@@ -466,14 +466,17 @@ The team habit that makes all of this safe: **always use `-m` to label a stash**
 
 ```console
 $ git log --graph --oneline --all --decorate
-*   54d2365 (HEAD -> main) Merge branch 'feature-percentage' into main
+* 647cd31 (HEAD -> main, origin/main) Add README with the inlined stash transcript and submission links
+* 6b52c4c Document the stash workflow and the apply versus pop distinction
+* 58a2d99 Add the raw terminal capture of the git stash session
+*   54d2365 Merge branch 'feature-percentage' into main
 |\  
-| * f8d60e9 (feature-percentage) Add percentage module and show the percentage result on the dashboard
+| * f8d60e9 (origin/feature-percentage, feature-percentage) Add percentage module and show the percentage result on the dashboard
 * |   0a1e77e Merge branch 'hotfix-division-by-zero' into main
 |\ \  
 | |/  
 |/|   
-| * 202c05d (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
+| * 202c05d (origin/hotfix-division-by-zero, hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
 |/  
 * 273950f Add calculator entry point and dashboard integration layer
 * 12df5c8 Add arithmetic modules for addition, subtraction, multiplication and division
@@ -481,8 +484,10 @@ $ git log --graph --oneline --all --decorate
 * 804fc7f Add gitignore, environment template and configuration module
 ```
 
-Two `--no-ff` merges keep both side branches visible in the graph: the hotfix
-went in first, the finished feature second.
+Read bottom to top: four baseline commits, the hotfix merged in with `--no-ff`,
+then the finished feature merged in the same way, then the three documentation
+commits. Both `--no-ff` merges keep the side branches visible in the graph
+instead of flattening them away.
 
 While the stash existed, it appeared in the same graph as real commit objects -
 this is what a stash looks like under the hood:
