@@ -466,7 +466,9 @@ The team habit that makes all of this safe: **always use `-m` to label a stash**
 
 ```console
 $ git log --graph --oneline --all --decorate
-* 647cd31 (HEAD -> main, origin/main) Add README with the inlined stash transcript and submission links
+* 6164fc9 (HEAD -> main, origin/main) Match the quoted python command in the docs to the raw capture
+* 0de2992 Refresh captured git history evidence
+* 647cd31 Add README with the inlined stash transcript and submission links
 * 6b52c4c Document the stash workflow and the apply versus pop distinction
 * 58a2d99 Add the raw terminal capture of the git stash session
 *   54d2365 Merge branch 'feature-percentage' into main
@@ -485,9 +487,10 @@ $ git log --graph --oneline --all --decorate
 ```
 
 Read bottom to top: four baseline commits, the hotfix merged in with `--no-ff`,
-then the finished feature merged in the same way, then the three documentation
+then the finished feature merged in the same way, then the documentation
 commits. Both `--no-ff` merges keep the side branches visible in the graph
-instead of flattening them away.
+instead of flattening them away. (The only commit missing from the block above
+is the one that pasted the block in - a graph cannot contain its own commit.)
 
 While the stash existed, it appeared in the same graph as real commit objects -
 this is what a stash looks like under the hood:
