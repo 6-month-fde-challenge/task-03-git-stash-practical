@@ -1,0 +1,370 @@
+================================================================================
+ RAW TERMINAL CAPTURE - git stash practical session
+================================================================================
+ Repository : task-03-git-stash-practical
+ Shell      : Git Bash on Windows 11
+ Author     : veerandra7 <veerandra.data@gmail.com>
+
+ Every line below was captured live: each line beginning with a dollar sign is
+ the exact command that was typed, and everything underneath it is the exact
+ output that git or python produced, piped straight to this file with tee.
+ Nothing here was typed by hand or edited afterwards - the stash SHAs, the
+ stash@{0} entries and the diffstats are all real.
+
+ The annotated walkthrough of this same session is in STASH_TRANSCRIPT.md, and
+ the apply-versus-pop explanation is in APPLY_VS_POP.md.
+================================================================================
+
+$ git checkout -b feature-percentage
+Switched to a new branch 'feature-percentage'
+
+$ git status
+On branch feature-percentage
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   dashboard.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	percentage_module.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git diff --stat
+ dashboard.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+$ python dashboard.py < /dev/null
+Enter a number 1 :    -> no input available, using default: 10
+Enter a number 2 :    -> no input available, using default: 5
+Enter username :    -> no input available, using default: veerandra
+Enter password :    -> no input available, using default: demo-password
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+*************** DASHBOARD ***************
+Result of addition is       :  15
+Result of subtraction is    :  5
+Result of multiplication is :  50
+Result of division is       :  2.0
+Traceback (most recent call last):
+  File "C:\Users\asus\Desktop\work\6-month-fde-challenge\03_git_and_git_hub\task-03-git-stash-practical\dashboard.py", line 12, in <module>
+    print("Result of percentage is     : ", pct)
+                                            ^^^
+NameError: name 'pct' is not defined. Did you mean: 'oct'?
+
+$ git stash push -u -m "WIP: percentage feature"
+Saved working directory and index state On feature-percentage: WIP: percentage feature
+
+$ git status
+On branch feature-percentage
+nothing to commit, working tree clean
+
+$ git stash list
+stash@{0}: On feature-percentage: WIP: percentage feature
+
+$ ls percentage_module.py
+ls: cannot access 'percentage_module.py': No such file or directory
+
+$ git checkout main
+Switched to branch 'main'
+
+$ git checkout -b hotfix-division-by-zero
+Switched to a new branch 'hotfix-division-by-zero'
+
+$ python -c "from division_module import division; print(\"returned:\", division(10, 0))" < /dev/null
+Enter username :    -> no input available, using default: veerandra
+Enter password :    -> no input available, using default: demo-password
+Cannot divide by zero
+returned: None
+
+$ python -c "from division_module import division; print(\"returned:\", division(10, 0))" < /dev/null
+Enter username :    -> no input available, using default: veerandra
+Enter password :    -> no input available, using default: demo-password
+Cannot divide 10 by zero - enter a non-zero second number
+returned: None
+
+$ git diff
+diff --git a/division_module.py b/division_module.py
+index 23788ce..90607d2 100644
+--- a/division_module.py
++++ b/division_module.py
+@@ -1,6 +1,8 @@
+ from config import api_key
+ from profile import profile_name
+ 
++ZERO_DIVISOR_MESSAGE = "Cannot divide {} by zero - enter a non-zero second number"
++
+ 
+ def division(a, b):
+     """Return a / b once the API key and the logged-in profile are present."""
+@@ -11,7 +13,13 @@ def division(a, b):
+         print("No logged-in profile - cannot run division")
+         return None
+     if b == 0:
+-        print("Cannot divide by zero")
++        print(ZERO_DIVISOR_MESSAGE.format(a))
+         return None
+     print("API key present and logged in as", profile_name)
+-    return a / b
++    try:
++        return a / b
++    except ZeroDivisionError:
++        # Backstop for numeric types whose zero does not compare equal to 0,
++        # so a bad divisor can never take the whole dashboard down.
++        print(ZERO_DIVISOR_MESSAGE.format(a))
++        return None
+
+$ git commit -m "Harden the divide-by-zero guard and make its message actionable" -m "The old message just said \"Cannot divide by zero\", which did not tell the user
+which value was wrong or what to do about it. The message now names the
+dividend and asks for a non-zero second number, and the division itself is
+wrapped so a ZeroDivisionError from a numeric type whose zero does not compare
+equal to 0 cannot crash the dashboard."
+[hotfix-division-by-zero 202c05d] Harden the divide-by-zero guard and make its message actionable
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+$ git checkout main
+Switched to branch 'main'
+
+$ git merge --no-ff hotfix-division-by-zero -m "Merge branch 'hotfix-division-by-zero' into main"
+Merge made by the 'ort' strategy.
+ division_module.py | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+$ git log --oneline --graph --all --decorate
+*   0a1e77e (HEAD -> main) Merge branch 'hotfix-division-by-zero' into main
+|\  
+| * 202c05d (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
+|/  
+| *   32adf60 (refs/stash) On feature-percentage: WIP: percentage feature
+|/|\  
+| | * 99e3405 untracked files on feature-percentage: 273950f Add calculator entry point and dashboard integration layer
+| * 9eb504a index on feature-percentage: 273950f Add calculator entry point and dashboard integration layer
+|/  
+* 273950f (feature-percentage) Add calculator entry point and dashboard integration layer
+* 12df5c8 Add arithmetic modules for addition, subtraction, multiplication and division
+* fae5a5b Add input, login and profile modules with non-interactive defaults
+* 804fc7f Add gitignore, environment template and configuration module
+
+$ git checkout feature-percentage
+Switched to branch 'feature-percentage'
+
+$ git status
+On branch feature-percentage
+nothing to commit, working tree clean
+
+$ git stash list
+stash@{0}: On feature-percentage: WIP: percentage feature
+
+$ git stash show stash@{0}
+ dashboard.py | 3 +++
+ 1 file changed, 3 insertions(+)
+
+$ git stash show --include-untracked stash@{0}
+ dashboard.py         |  3 +++
+ percentage_module.py | 13 +++++++++++++
+ 2 files changed, 16 insertions(+)
+
+$ git stash show -p stash@{0}
+diff --git a/dashboard.py b/dashboard.py
+index ece6422..78a743e 100644
+--- a/dashboard.py
++++ b/dashboard.py
+@@ -1,10 +1,13 @@
+ """Final integration point - displays the results produced by calculator.py."""
+ 
+ from calculator import total, subtraction, multiplication, div
++from percentage_module import percentage  # TODO: a and b are not imported yet
+ 
+ print("*************** DASHBOARD ***************")
+ print("Result of addition is       : ", total)
+ print("Result of subtraction is    : ", subtraction)
+ print("Result of multiplication is : ", multiplication)
+ print("Result of division is       : ", div)
++# TODO: pct is not computed anywhere yet - this line is still a placeholder
++print("Result of percentage is     : ", pct)
+ print("*****************************************")
+
+$ git stash apply stash@{0}
+On branch feature-percentage
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   dashboard.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	percentage_module.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git status
+On branch feature-percentage
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   dashboard.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	percentage_module.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git stash list
+stash@{0}: On feature-percentage: WIP: percentage feature
+
+$ git checkout -- .
+
+$ rm percentage_module.py
+
+$ git status
+On branch feature-percentage
+nothing to commit, working tree clean
+
+$ git stash list
+stash@{0}: On feature-percentage: WIP: percentage feature
+
+$ git stash pop
+On branch feature-percentage
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   dashboard.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	percentage_module.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (32adf60a5aac468c512e8569c147262ba8b48787)
+
+$ git status
+On branch feature-percentage
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   dashboard.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	percentage_module.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git stash list
+
+$ git diff calculator.py
+diff --git a/calculator.py b/calculator.py
+index 52c73c7..6eefaa0 100644
+--- a/calculator.py
++++ b/calculator.py
+@@ -16,3 +16,4 @@ if __name__ == "__main__":
+     print("Subtraction of the two numbers is    : ", subtraction)
+     print("Multiplication of the two numbers is : ", multiplication)
+     print("Division of the two numbers is       : ", div)
++print("DEBUG: throwaway trace line, never meant to be committed")
+
+$ git stash push -m "throwaway: temporary debug print" -- calculator.py
+Saved working directory and index state On feature-percentage: throwaway: temporary debug print
+
+$ git stash list
+stash@{0}: On feature-percentage: throwaway: temporary debug print
+
+$ git status
+On branch feature-percentage
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   dashboard.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	percentage_module.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+$ git stash drop stash@{0}
+Dropped stash@{0} (99bfe2fd5417692051285869f87a9bc896dd6407)
+
+$ git stash list
+
+$ git diff calculator.py
+
+$ python dashboard.py < /dev/null
+Enter a number 1 :    -> no input available, using default: 10
+Enter a number 2 :    -> no input available, using default: 5
+Enter username :    -> no input available, using default: veerandra
+Enter password :    -> no input available, using default: demo-password
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+*************** DASHBOARD ***************
+Result of addition is       :  15
+Result of subtraction is    :  5
+Result of multiplication is :  50
+Result of division is       :  2.0
+Result of percentage is     :  200.0
+*****************************************
+
+$ git status --short
+ M dashboard.py
+?? percentage_module.py
+
+$ git commit -m "Add percentage module and show the percentage result on the dashboard" -m "Finishes the work that was parked with git stash. percentage() mirrors the
+other arithmetic modules: it checks the API key and the logged-in profile,
+refuses a zero base with a clear message, and returns a as a percentage of b.
+The dashboard now renders that fifth result."
+[feature-percentage f8d60e9] Add percentage module and show the percentage result on the dashboard
+ 2 files changed, 30 insertions(+)
+ create mode 100644 percentage_module.py
+
+$ git checkout main
+Switched to branch 'main'
+
+$ git merge --no-ff feature-percentage -m "Merge branch 'feature-percentage' into main"
+Merge made by the 'ort' strategy.
+ dashboard.py         |  5 +++++
+ percentage_module.py | 25 +++++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 percentage_module.py
+
+$ python dashboard.py < /dev/null
+Enter a number 1 :    -> no input available, using default: 10
+Enter a number 2 :    -> no input available, using default: 5
+Enter username :    -> no input available, using default: veerandra
+Enter password :    -> no input available, using default: demo-password
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+API key present and logged in as veerandra
+*************** DASHBOARD ***************
+Result of addition is       :  15
+Result of subtraction is    :  5
+Result of multiplication is :  50
+Result of division is       :  2.0
+Result of percentage is     :  200.0
+*****************************************
+
+$ git stash list
+
+$ git log --graph --oneline --all --decorate
+*   54d2365 (HEAD -> main) Merge branch 'feature-percentage' into main
+|\  
+| * f8d60e9 (feature-percentage) Add percentage module and show the percentage result on the dashboard
+* |   0a1e77e Merge branch 'hotfix-division-by-zero' into main
+|\ \  
+| |/  
+|/|   
+| * 202c05d (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
+|/  
+* 273950f Add calculator entry point and dashboard integration layer
+* 12df5c8 Add arithmetic modules for addition, subtraction, multiplication and division
+* fae5a5b Add input, login and profile modules with non-interactive defaults
+* 804fc7f Add gitignore, environment template and configuration module
+
