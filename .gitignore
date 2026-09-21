@@ -1,0 +1,20 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Real secrets - never commit these. Use .env.example as the template.
+.env
+.env.local
+secrets_local.py
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
