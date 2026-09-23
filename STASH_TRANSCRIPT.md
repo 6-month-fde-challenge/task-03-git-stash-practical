@@ -197,7 +197,7 @@ index 23788ce..90607d2 100644
 
 ```console
 $ git commit -m "Harden the divide-by-zero guard and make its message actionable" -m "..."
-[hotfix-division-by-zero 202c05d] Harden the divide-by-zero guard and make its message actionable
+[hotfix-division-by-zero 041e4c3] Harden the divide-by-zero guard and make its message actionable
  1 file changed, 10 insertions(+), 2 deletions(-)
 
 $ git checkout main
@@ -216,19 +216,19 @@ real commit objects hanging off `refs/stash`:
 
 ```console
 $ git log --oneline --graph --all --decorate
-*   0a1e77e (HEAD -> main) Merge branch 'hotfix-division-by-zero' into main
+*   966e975 (HEAD -> main) Merge branch 'hotfix-division-by-zero' into main
 |\  
-| * 202c05d (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
+| * 041e4c3 (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
 |/  
 | *   32adf60 (refs/stash) On feature-percentage: WIP: percentage feature
 |/|\  
-| | * 99e3405 untracked files on feature-percentage: 273950f Add calculator entry point and dashboard integration layer
-| * 9eb504a index on feature-percentage: 273950f Add calculator entry point and dashboard integration layer
+| | * 99e3405 untracked files on feature-percentage: f75b3b1 Add calculator entry point and dashboard integration layer
+| * 9eb504a index on feature-percentage: f75b3b1 Add calculator entry point and dashboard integration layer
 |/  
-* 273950f (feature-percentage) Add calculator entry point and dashboard integration layer
-* 12df5c8 Add arithmetic modules for addition, subtraction, multiplication and division
-* fae5a5b Add input, login and profile modules with non-interactive defaults
-* 804fc7f Add gitignore, environment template and configuration module
+* f75b3b1 (feature-percentage) Add calculator entry point and dashboard integration layer
+* ad22f9e Add arithmetic modules for addition, subtraction, multiplication and division
+* 6638ef6 Add input, login and profile modules with non-interactive defaults
+* e55ad87 Add gitignore, environment template and configuration module
 ```
 
 `32adf60` is the stash commit, with `9eb504a` (the index) and `99e3405` (the
@@ -530,7 +530,7 @@ Result of percentage is     :  200.0
 
 ```console
 $ git commit -m "Add percentage module and show the percentage result on the dashboard" -m "..."
-[feature-percentage f8d60e9] Add percentage module and show the percentage result on the dashboard
+[feature-percentage 571ceef] Add percentage module and show the percentage result on the dashboard
  2 files changed, 30 insertions(+)
  create mode 100644 percentage_module.py
 

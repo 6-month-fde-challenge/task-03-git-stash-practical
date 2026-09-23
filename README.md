@@ -199,7 +199,7 @@ returned: None
 
 ```console
 $ git commit -m "Harden the divide-by-zero guard and make its message actionable" -m "..."
-[hotfix-division-by-zero 202c05d] Harden the divide-by-zero guard and make its message actionable
+[hotfix-division-by-zero 041e4c3] Harden the divide-by-zero guard and make its message actionable
  1 file changed, 10 insertions(+), 2 deletions(-)
 
 $ git checkout main
@@ -368,7 +368,7 @@ $ git diff calculator.py
 
 ```console
 $ git commit -m "Add percentage module and show the percentage result on the dashboard" -m "..."
-[feature-percentage f8d60e9] Add percentage module and show the percentage result on the dashboard
+[feature-percentage 571ceef] Add percentage module and show the percentage result on the dashboard
  2 files changed, 30 insertions(+)
  create mode 100644 percentage_module.py
 
@@ -466,24 +466,24 @@ The team habit that makes all of this safe: **always use `-m` to label a stash**
 
 ```console
 $ git log --graph --oneline --all --decorate
-* 6164fc9 (HEAD -> main, origin/main) Match the quoted python command in the docs to the raw capture
-* 0de2992 Refresh captured git history evidence
-* 647cd31 Add README with the inlined stash transcript and submission links
-* 6b52c4c Document the stash workflow and the apply versus pop distinction
-* 58a2d99 Add the raw terminal capture of the git stash session
-*   54d2365 Merge branch 'feature-percentage' into main
+* a69110a (HEAD -> main, origin/main) Match the quoted python command in the docs to the raw capture
+* 26daf79 Refresh captured git history evidence
+* 74f8d8f Add README with the inlined stash transcript and submission links
+* dfa54c0 Document the stash workflow and the apply versus pop distinction
+* d869b86 Add the raw terminal capture of the git stash session
+*   7db76c8 Merge branch 'feature-percentage' into main
 |\  
-| * f8d60e9 (origin/feature-percentage, feature-percentage) Add percentage module and show the percentage result on the dashboard
-* |   0a1e77e Merge branch 'hotfix-division-by-zero' into main
+| * 571ceef (origin/feature-percentage, feature-percentage) Add percentage module and show the percentage result on the dashboard
+* |   966e975 Merge branch 'hotfix-division-by-zero' into main
 |\ \  
 | |/  
 |/|   
-| * 202c05d (origin/hotfix-division-by-zero, hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
+| * 041e4c3 (origin/hotfix-division-by-zero, hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
 |/  
-* 273950f Add calculator entry point and dashboard integration layer
-* 12df5c8 Add arithmetic modules for addition, subtraction, multiplication and division
-* fae5a5b Add input, login and profile modules with non-interactive defaults
-* 804fc7f Add gitignore, environment template and configuration module
+* f75b3b1 Add calculator entry point and dashboard integration layer
+* ad22f9e Add arithmetic modules for addition, subtraction, multiplication and division
+* 6638ef6 Add input, login and profile modules with non-interactive defaults
+* e55ad87 Add gitignore, environment template and configuration module
 ```
 
 Read bottom to top: four baseline commits, the hotfix merged in with `--no-ff`,
@@ -497,19 +497,19 @@ this is what a stash looks like under the hood:
 
 ```console
 $ git log --oneline --graph --all --decorate
-*   0a1e77e (HEAD -> main) Merge branch 'hotfix-division-by-zero' into main
+*   966e975 (HEAD -> main) Merge branch 'hotfix-division-by-zero' into main
 |\  
-| * 202c05d (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
+| * 041e4c3 (hotfix-division-by-zero) Harden the divide-by-zero guard and make its message actionable
 |/  
 | *   32adf60 (refs/stash) On feature-percentage: WIP: percentage feature
 |/|\  
-| | * 99e3405 untracked files on feature-percentage: 273950f Add calculator entry point and dashboard integration layer
-| * 9eb504a index on feature-percentage: 273950f Add calculator entry point and dashboard integration layer
+| | * 99e3405 untracked files on feature-percentage: f75b3b1 Add calculator entry point and dashboard integration layer
+| * 9eb504a index on feature-percentage: f75b3b1 Add calculator entry point and dashboard integration layer
 |/  
-* 273950f (feature-percentage) Add calculator entry point and dashboard integration layer
-* 12df5c8 Add arithmetic modules for addition, subtraction, multiplication and division
-* fae5a5b Add input, login and profile modules with non-interactive defaults
-* 804fc7f Add gitignore, environment template and configuration module
+* f75b3b1 (feature-percentage) Add calculator entry point and dashboard integration layer
+* ad22f9e Add arithmetic modules for addition, subtraction, multiplication and division
+* 6638ef6 Add input, login and profile modules with non-interactive defaults
+* e55ad87 Add gitignore, environment template and configuration module
 ```
 
 `32adf60` is the stash commit; `9eb504a` holds the index and `99e3405` holds the
